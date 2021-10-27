@@ -58,11 +58,11 @@ a:hover {
   max-height: 290px;
 }
 
-img{
-    margin-top: auto;
+img {
+  margin-top: auto;
 }
 
-/* Content */
+/* Content Google-Image Search */
 .content {
   padding: 15px;
   margin: 15px 0 auto 0;
@@ -141,4 +141,83 @@ img{
   border-bottom: 1px solid #dadce0;
   font-size: 15px;
   color: rgba(0, 0, 0, 0.54);
+}
+
+/*Advanced Search*/
+.advanced {
+  margin: 25px 25px auto 35px;
+}
+.options {
+  clear: both;
+}
+
+.op_title {
+  float: left;
+  min-width: 165px;
+  width: 15%;
+  height: 40px;
+  font-size: 13px;
+  line-height: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.op_input {
+  float: left;
+  min-width: 170px;
+  min-height: 40px;
+  width: 50%;
+  max-width: 500px;
+  display: flex;
+  align-items: center;
+}
+
+.adv_input {
+  padding: 1px 8px;
+  font-size: 13px;
+  height: 28px;
+  width: 100%;
+  text-align: left;
+  border: 1px solid #d9d9d9;
+}
+
+.separator {
+  border-top: 1px solid #ebebeb;
+}
+
+.cont_advanced {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.title {
+  color: #d93025;
+  font-size: 20px;
+  margin: 25px 35px;
+}
+
+.logo_google {
+  content: url("https://www.gstatic.com/images/branding/googlelogo/svg/googlelogo_clr_74x24px.svg");
+  display: inline-block;
+  height: 24px;
+  width: 74px;
+  margin-right: 20px;
+}
+
+.btn_advanced_search {
+  text-align: right;
+  width: 100%;
+}
+
+.ad_search {
+  background: #3079ed;
+  border: 1px solid #4d90fe ;
+  border-radius: 2px;
+  padding: 0px 15px;
+  margin: 10px 5px;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: bold;
+  height: 30px;
+  color: #fff;
 }
