@@ -38,7 +38,7 @@ def search(request):
             })
         else:
             return render(request, "encyclopedia/error.html",{
-                "message": "No existe esa entrada"
+                "message": "No existe la entrada"
             })
     return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries()
