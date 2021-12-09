@@ -10,7 +10,7 @@ New Page
 
 <form action="{% url 'newpage' %}" method="post">
     {% csrf_token %}
-    <input type="text" , name="title">
+    <input type="text" name="title">
     <textarea name="content" id="" cols="30" rows="10"></textarea>
     <input type="submit">
 </form>

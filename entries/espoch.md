@@ -1,1 +1,0 @@
-UNiversidad localizada en riobamba
