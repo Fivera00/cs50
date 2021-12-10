@@ -1,24 +1,18 @@
 # cs50
 ## Specification
-Complete the implementation of your Wiki encyclopedia. You must fulfill the following requirements:
+Your website must meet the following requirements.
 
-1. Entry Page: Visiting /wiki/TITLE, where TITLE is the title of an encyclopedia entry, should render a page that displays the contents of that encyclopedia entry.
-      * The view should get the content of the encyclopedia entry by calling the appropriate util function.
-      * If an entry is requested that does not exist, the user should be presented with an error page indicating that their requested page was not found.
-      * If the entry does exist, the user should be presented with a page that displays the content of the entry. The title of the page should include the name of the entry.
-2. Index Page: Update index.html such that, instead of merely listing the names of all pages in the encyclopedia, user can click on any entry name to be taken directly to that entry page.
-3. Search: Allow the user to type a query into the search box in the sidebar to search for an encyclopedia entry.
-       * If the query matches the name of an encyclopedia entry, the user should be redirected to that entry’s page
-       * If the query does not match the name of an encyclopedia entry, the user should instead be taken to a search results page that displays a list of all encyclopedia entries that have the query as a substring. For example, if the search query were ytho, then Python should appear in the search results.
-       * Clicking on any of the entry names on the search results page should take the user to that entry’s page.
-4. New Page: Clicking “Create New Page” in the sidebar should take the user to a page where they can create a new encyclopedia entry.
-       * Users should be able to enter a title for the page and, in a textarea, should be able to enter the Markdown content for the page.
-       * Users should be able to click a button to save their new page.
-       * When the page is saved, if an encyclopedia entry already exists with the provided title, the user should be presented with an error message.
-       * Otherwise, the encyclopedia entry should be saved to disk, and the user should be taken to the new entry’s page.
-5. Edit Page: On each entry page, the user should be able to click a link to be taken to a page where the user can edit that entry’s Markdown content in a textarea.
-       * The textarea should be pre-populated with the existing Markdown content of the page. (i.e., the existing content should be the initial value of the textarea).
-       * The user should be able to click a button to save the changes made to the entry.
-       * Once the entry is saved, the user should be redirected back to that entry’s page.
-6. Random Page: Clicking “Random Page” in the sidebar should take user to a random encyclopedia entry.
-7. Markdown to HTML Conversion: On each entry’s page, any Markdown content in the entry file should be converted to HTML before being displayed to the user. You may use the python-markdown2 package to perform this conversion, installable via pip3 install markdown2. 
+1. Pages. Your website should have at least three pages: one for Google Search, one for Google Image Search, and one for Google Advanced Search.
+ * On the Google Search page, there should be links in the upper-right of the page to go to Image Search or Advanced Search. On each of the other two pages, there should be a link in the upper-right to go back to Google Search.
+1. Query Text. On the Google Search page, the user should be able to type in a query, click “Google Search”, and be taken to the Google search results for that page.
+ * Like Google’s own, your search bar should be centered with rounded corners. The search button should also be centered, and should be beneath the search bar.
+1. Query Images. On the Google Image Search page, the user should be able to type in a query, click a search button, and be taken to the Google Image search results for that page.
+1. Query Advanced. On the Google Advanced Search page, the user should be able to provide input for the following four fields (taken from Google’s own advanced search options)
+ * Find pages with… “all these words:”
+ * Find pages with… “this exact word or phrase:”
+ * Find pages with… “any of these words:”
+ * Find pages with… “none of these words:”
+1. Appearance. Like Google’s own Advanced Search page, the four options should be stacked vertically, and all of the text fields should be left aligned.
+ * Consistent with Google’s own CSS, the “Advanced Search” button should be blue with white text. When the “Advanced Search” button is clicked, the user should be taken to search results page for their given query.
+1. Lucky. Add an “I’m Feeling Lucky” button to the main Google Search page. Consistent with Google’s own behavior, clicking this link should take users directly to the first Google search result for the query, bypassing the normal results page.
+1. Aesthetics. The CSS you write should match Google’s own aesthetics as best as possible.
