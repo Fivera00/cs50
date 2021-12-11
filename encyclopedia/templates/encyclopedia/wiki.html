@@ -5,19 +5,26 @@
 {% endblock %}
 
 {% block body %}
-<div><a href="{% url 'index' %}" >Back</a><br><a href="/edit/{{title}}" >Edit</a></div>
-    {% if success %} 
-    {{ content|safe }} 
-     {% if entries %}
-                <h4>Resultados similares:</h4>
-                <ul>
-            {% for entry in entries %}
-                <li><a href="/wiki/{{entry}}">{{ entry }}</a></li>
-            {% endfor %}
-                </ul>
-    {% endif %} 
-{% else %}
-    <h1>{{message}}</h1>
-{% endif %} 
+    {% if view %}
+        <div style="margin-bottom: 20px !important;">
+            <ul class="nav nav-tabs">
+                <a class="nav-item nav-link active" href="/wiki/{{title}}" >Read</a>
+                <a class="nav-item nav-link" href="/edit/{{title}}" >Edit</a>
+              </ul>
+        </div>
+    {% endif %}
+    {% if success %}
+        {{ content|safe }}
+        {% if entries %}
+            <h4>Resultados similares:</h4>
+            <ul>
+                {% for entry in entries %}
+                    <li><a href="/wiki/{{entry}}">{{ entry }}</a></li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% else %}
+        <h1>{{message}}</h1>
+    {% endif %}
 
 {% endblock %}

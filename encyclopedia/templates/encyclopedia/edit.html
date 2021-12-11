@@ -5,14 +5,17 @@
 {% endblock %}
 
 {% block body %}
-
-<h1>Edit Page</h1>
-
+<div style="margin-bottom: 20px !important;">
+    <ul class="nav nav-tabs">
+        <a class="nav-item nav-link" href="/wiki/{{title}}" >Read</a>
+        <a class="nav-item nav-link active" href="/edit/{{title}}" >Edit</a>
+      </ul>
+</div>
 <form method="post">
     {% csrf_token %}
-    <textarea name="content" id="" cols="30" rows="10">
+    <textarea name="content" id="" rows="20" class="form-control" style="margin-bottom: 0.25rem;">
         {{content|safe}}
     </textarea>
-    <input type="submit">
+    <input type="submit" class="btn btn-secondary">
 </form>
 {% endblock %}

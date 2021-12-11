@@ -10,8 +10,8 @@ New Page
 
 <form action="{% url 'newpage' %}" method="post">
     {% csrf_token %}
-    <input type="text" name="title">
-    <textarea name="content" id="" cols="30" rows="10"></textarea>
-    <input type="submit">
+    <input type="text" class="form-control" name="title" placeholder="Title">
+    <textarea name="content" id="" class="form-control" rows="20" style="margin: 0.5rem 0;" placeholder="Content"></textarea>
+    <input type="submit" class="btn btn-secondary">
 </form>
 {% endblock %}

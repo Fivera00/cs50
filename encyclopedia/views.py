@@ -17,6 +17,7 @@ def wiki(request, title):
     _title = util.get_entry(title)
     if bool(_title):
         context = {
+            'view': True,
             'success': True,
             'title': title,
             'content': markdowner.convert(_title)
@@ -24,6 +25,7 @@ def wiki(request, title):
         return render(request, "encyclopedia/wiki.html",context)
     else:
         context = {
+            'view': False,
             'success': False,
             'title': "Página no encontrada",
             'message': "Página no encontrada"
@@ -36,16 +38,12 @@ def search(request):
     entries = [i for i in util.list_entries()]
     
     if title in entries:
-        context = {
-            'success': True,
-            'title': title,
-            'content': markdowner.convert(util.get_entry(title))
-        }
-        return render(request, "encyclopedia/wiki.html",context)
+        return redirect(f'../wiki/{title}')
     else:
         result = [i for i in entries if title.upper() in i.upper()]
         if not result:
             context = {
+                'view': False,
                 'success': False,
                 'title': "Error",
                 'message': "No se encontraron coincidencias"
@@ -53,12 +51,12 @@ def search(request):
             return render(request, "encyclopedia/wiki.html",context)
         else:
             context = {
+                'view': False,
                 'success': True,
                 'title': "Resultados Similares",
                 'entries': result
             }
             return render(request, "encyclopedia/wiki.html",context)
-
   
 def newpage(request):
     if request.method == "POST":
@@ -66,14 +64,10 @@ def newpage(request):
         content = request.POST.get("content")
         if title.upper() not in [i.upper() for i in util.list_entries()]:
             util.save_entry(title, content)
-            context = {
-                'success': True,
-                'title': title,
-                'content': markdowner.convert(util.get_entry(title))
-            }
-            return render(request, "encyclopedia/wiki.html",context)
+            return redirect(f'../wiki/{title}')
         else:
             context = {
+                'view': False,
                 'success': False,
                 'title': "Error",
                 'message': "Ya existe esa entrada"
@@ -82,20 +76,12 @@ def newpage(request):
     else:
         return render(request, "encyclopedia/newpage.html")
 
-
 def randomPage(request):
     if request.method == 'GET':
         entries = util.list_entries()
         rand = random.SystemRandom()
-        entry = rand.choice(entries)
-
-        context = {
-            'success': True,
-            'title': entry,
-            'content': markdowner.convert(util.get_entry(entry))
-        }
-
-        return render(request, "encyclopedia/wiki.html", context)
+        title = rand.choice(entries)
+        return redirect(f'../wiki/{title}')
 
 def editContet(request, title):
     if request.method == 'GET':
@@ -108,10 +94,5 @@ def editContet(request, title):
         if request.method == 'POST':
             content = request.POST.get("content")
             util.save_entry(title, content)
-            context = {
-                'success': True,
-                'title': title,
-                'content': markdowner.convert(util.get_entry(title))
-            }
-            return render(request, 'encyclopedia/wiki.html', context)
+            return redirect(f'../../wiki/{title}')
     
