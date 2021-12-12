@@ -2,7 +2,9 @@
 
 {% block body %}
 
-    <h2>Create a Listing</h2>
+<div class="contentCard">
+
+    <h2>Register</h2>
 
     {% if message %}
         <div>{{ message }}</div>
@@ -26,5 +28,5 @@
     </form>
 
     Already have an account? <a href="{% url 'login' %}">Log In here.</a>
-
+</div>
 {% endblock %}

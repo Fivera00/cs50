@@ -1,6 +1,9 @@
 from django.contrib import admin
-
-from auctions.models import Listing
+from .models import Categories, Auctions, Comments, Bid, Watchlist
 
 # Register your models here.
-admin.site.register(Listing)
+admin.site.register(Categories)
+admin.site.register(Auctions)
+admin.site.register(Comments)
+admin.site.register(Bid)
+admin.site.register(Watchlist)

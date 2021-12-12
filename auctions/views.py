@@ -3,15 +3,21 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from datetime import datetime
-from .models import User, Listing
+from django.contrib.auth.decorators import login_required
+
+from .models import *
+from .forms import *
+
 
 
 def index(request):
-    #listing = Listing.objects.get(title)
-    return render(request, "auctions/index.html",{
-        'listings': Listing.objects.all()
-    })
+    listing = Auctions.objects.filter(isActiveAuction = True)
+    categories = Categories.objects.all()
+    context={
+        'categories': categories,
+        'listingAuction': listing
+    }
+    return render(request, "auctions/index.html", context)
 
 def login_view(request):
     if request.method == "POST":
@@ -31,10 +37,6 @@ def login_view(request):
             })
     else:
         return render(request, "auctions/login.html")
-
-def logout_view(request):
-    logout(request)
-    return HttpResponseRedirect(reverse("index"))
 
 def register(request):
     if request.method == "POST":
@@ -62,26 +64,38 @@ def register(request):
     else:
         return render(request, "auctions/register.html")
 
+@login_required
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect(reverse("index"))
+
+@login_required
 def createListing(request):
-    print("lelga")
+    
     if request.method == "POST":
-        try:
-            listing = Listing()
-            listing.title = request.POST["title"]
-            listing.description = request.POST["description"]
-            listing.price = request.POST["price"]
-            listing.image = request.POST["image"]
-            listing.category = request.POST["category"]
-            listing.date = datetime.today().strftime('%B %d, %Y %H:%M:%S')
+        form = ListingForm(request.POST)
+        user = User.objects.get(username=request.user)
 
+        if form.is_valid():
+
+            category = Categories.objects.get(categoryName = form.cleaned_data['category'])
+
+            listing = Auctions(
+                titleItem = form.cleaned_data['title'],
+                descriptionItem = form.cleaned_data['description'],
+                imageItem = form.cleaned_data['image'],
+                priceAuction = form.cleaned_data['startingBid'],
+                categoryAuction = category,
+                userAuction = user
+            )
             listing.save()
-
-        except IntegrityError:
-            return render(request, "auctions/register.html", {
-                "message": "Username already taken."
+            
+            return HttpResponseRedirect(reverse("index"))
+        else:
+            return render(request, "auctions/createAuction.html", {
+                'form': form
             })
-
-        return HttpResponseRedirect(reverse("index"))
     else:
-        print("salto por aqui")
-        return render(request, "auctions/listing.html")
+        return render(request, "auctions/createAuction.html",{
+        'form': ListingForm()
+    })
