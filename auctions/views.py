@@ -1,15 +1,17 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.urls import reverse
-
-from .models import User
+from datetime import datetime
+from .models import User, Listing
 
 
 def index(request):
-    return render(request, "auctions/index.html")
-
+    #listing = Listing.objects.get(title)
+    return render(request, "auctions/index.html",{
+        'listings': Listing.objects.all()
+    })
 
 def login_view(request):
     if request.method == "POST":
@@ -30,11 +32,9 @@ def login_view(request):
     else:
         return render(request, "auctions/login.html")
 
-
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
-
 
 def register(request):
     if request.method == "POST":
@@ -63,4 +63,25 @@ def register(request):
         return render(request, "auctions/register.html")
 
 def createListing(request):
-    return()
+    print("lelga")
+    if request.method == "POST":
+        try:
+            listing = Listing()
+            listing.title = request.POST["title"]
+            listing.description = request.POST["description"]
+            listing.price = request.POST["price"]
+            listing.image = request.POST["image"]
+            listing.category = request.POST["category"]
+            listing.date = datetime.today().strftime('%B %d, %Y %H:%M:%S')
+
+            listing.save()
+
+        except IntegrityError:
+            return render(request, "auctions/register.html", {
+                "message": "Username already taken."
+            })
+
+        return HttpResponseRedirect(reverse("index"))
+    else:
+        print("salto por aqui")
+        return render(request, "auctions/listing.html")
