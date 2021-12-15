@@ -50,6 +50,6 @@ class Bid(models.Model):
 # Para guardar alguna oferta en la lista de deseos
 class Watchlist(models.Model):
     userWatchlist = models.ForeignKey(User, on_delete=models.CASCADE, related_name="userWatchlist")
-    auctionWashlist = models.ForeignKey(Auctions, on_delete=models.CASCADE)
+    auctionWatchlist = models.ForeignKey(Auctions, on_delete=models.CASCADE)
     def __str__(self):
-        return(f"{self.userWatchlist.username} listed {self.userWatchlist.id} watchlist")
+        return(f"{self.userWatchlist.username} listed {self.auctionWatchlist.titleItem} watchlist")

@@ -1,18 +1,16 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    
-    {% if message %}
-        <h2 style="text-align: center;">{{ message }}</h2>
-    {% else %}
-    <h2 style="text-align: center;">Active Listings</h2>
+
+        
+    <h2>Watchlist</h2>
 
     <div class="album py-5 bg-light">
         <div class="container">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                {% for auction in listingAuction %}
-                    <a href="{% url 'auction' auction.id %}" class="col" style="margin: 10px 0px; text-decoration: none; font-size: smaller;">
-                        <div class="card shadow-sm" style="min-width: 250px;">
+                {% for auction in watchlist %}
+                    <a href="#" class="col" style="margin: 10px 0px; text-decoration: none;">
+                        <div class="card shadow-sm"style="min-width: 250px;">
                             <img src="{{auction.imageItem}}" class=" bd-placeholder-img card-img-top" width="100%" height="325" >
                             
                             <div class="card-body">
@@ -27,16 +25,9 @@
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center">
-                                    {% if user.is_authenticated %}
-                                        <form action="{% url 'addwatchlist' %}" method="POST" enctype="multipart/form-data">
-                                            {% csrf_token %}
-                                            <div class="btn-group">
-                                                <input type="text" hidden name="idAuction" value="{{ auction.id }}">
-                                                <input type="submit" value = "Add" class="btn btn-sm btn-outline-secondary">
-                                            </div>
-                                        </form>
-                                    {% endif %}
-                                    
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary">Remove</button>
+                                    </div>
                                     <small class="text-muted">{{ auction.auctionStarted }}</small>
                                 </div>
                             </div>
@@ -46,5 +37,6 @@
             </div>
         </div>
     </div>
-    {% endif %}
+    
+    
 {% endblock %}

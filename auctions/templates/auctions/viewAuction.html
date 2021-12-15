@@ -1,0 +1,22 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2 style="text-align: center;">{{ auction.titleItem }}</h2>
+    <div class="contentAuction">
+            <div class="card mb-3">
+                <div class="row g-0">
+                <div class="col-md-4" style="display: flex;">
+                    <img src="{{auction.imageItem}}" class="img-fluid rounded-start" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                    <h5 class="card-title">{{ auction.title }}</h5>
+                    <p class="card-text">auction: {{ listing.price }}</p>
+                    <p class="card-text">Category: {{ auction.category }}</p>
+                    <p class="card-text"><small class="text-muted">Created {{ auction.date }}</small></p>
+                    </div>
+                </div>
+                </div>
+            </div>
+    
+{% endblock %}
