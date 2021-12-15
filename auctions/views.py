@@ -105,7 +105,9 @@ def createListing(request):
             })
     else:
         return render(request, "auctions/createAuction.html",{
-        'form': ListingForm()
+        'categories': Categories.objects.all(),
+        'form': ListingForm(),
+        'watchlist_count': request.user.userWatchlist.all().count()
     })
 
 def searchCategoryAuction(request, category):
@@ -133,34 +135,29 @@ def addWatchlist(request):
     if request.method == 'POST':
         _userWatchlist = request.user
         _auctionWatchlist = Auctions.objects.get(pk=request.POST["idAuction"])
-
         if Watchlist.objects.filter(userWatchlist = _userWatchlist, auctionWatchlist = _auctionWatchlist):
-            print('Ya existe entrada')
+            _userWatchlist.userWatchlist.filter(auctionWatchlist = _auctionWatchlist).delete()
+            return HttpResponseRedirect(reverse("index"))
         else:
             watchlist = Watchlist(
                 userWatchlist = _userWatchlist,
                 auctionWatchlist = _auctionWatchlist
             )
             watchlist.save()
-        return HttpResponseRedirect(reverse("index"))
+            return HttpResponseRedirect(reverse("index"))
     else:
         return HttpResponseRedirect(reverse("index"))
     
 @login_required
 def listWacthlist(request):
     user = User.objects.get(username=request.user)
-    watchlist = Watchlist.objects.filter(userWatchlist = user)
-    auctions = []
-    for i in watchlist:
-        print(i.auctionWatchlist.id)
-        auctions.append(i.auctionWatchlist.id)
-    print(auctions)
-    auctionlist = Auctions.objects.filter(pk__in = auctions)
-    print(auctionlist)
-    return render(request, "auctions/watchlist.html",{
-        "watchlist": auctionlist
-    }) 
+    return render(request, "auctions/watchlist.html", {
+        'categories': Categories.objects.all(),
+        'watchlist': user.userWatchlist.all(),
+        'watchlist_count': request.user.userWatchlist.all().count()
+    })
 
+@login_required
 def viewAuction(request, id):
     if request.method == 'GET':
         auction = Auctions.objects.get(id = id)
