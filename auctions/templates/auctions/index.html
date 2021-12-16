@@ -26,6 +26,7 @@
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center">
+                                    <!-- Add auction to watchlist -->
                                     {% if user.is_authenticated %}
                                         <form action="{% url 'addwatchlist' %}" method="POST" enctype="multipart/form-data">
                                             {% csrf_token %}

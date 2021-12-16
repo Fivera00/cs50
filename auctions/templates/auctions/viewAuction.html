@@ -13,7 +13,6 @@
                     <img src="{{auction.imageItem}}" class="img-fluid rounded-start" alt="...">
                 </div>
                 <div class="col-md-4">
-                    
                         <form action="{% url 'auction' auction.id %}" method="POST" style="margin-top: 10px;">
                             {% csrf_token %}
                             <div class="mb-3">
@@ -44,7 +43,11 @@
         </div>
         <p class="card-text"><small class="text-muted">Created {{ auction.auctionStarted }}</small></p>
         {% if user.id == auction.userAuction.id %}
-            <button type="button" class="btn btn-warning">Close Auction</button>
+        <form action="{% url 'close' auction.id %}" method="POST" >
+            {% csrf_token %}
+            <button type="submit" class="btn btn-warning">Close Auction</button>
+        </form>
+            
         {% endif %}
         
     </div>
@@ -65,4 +68,20 @@
             
         </div>
     </div>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#winner">
+        Launch demo modal
+      </button>
+    <!-- Modal WINNER -->
+    <div class="modal fade" id="winner" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            
+            <div class="modal-body">
+              Are you winner
+            </div>
+          </div>
+        </div>
+      </div>
+
 {% endblock %}
+
