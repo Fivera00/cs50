@@ -1,22 +1,68 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2 style="text-align: center;">{{ auction.titleItem }}</h2>
-    <div class="contentAuction" style="max-width: 800px; margin: 10px auto;">
-            <div class="card mb-3">
-                <div class="row g-0">
-                <div class="col-md-4" >
+    
+    <div class="contentCard" style="max-width: 800px;">
+        <h2 style="text-align: center;">{{ auction.titleItem }}</h2>
+        <p class="card-text">Started Bid: ${{ auction.priceAuction }}</p>
+        <p class="card-text">Current Bid: ${{ currentBid }}</p>
+        <p class="card-text">Category: {{ auction.categoryAuction.categoryName }}</p>
+        <div class="card mb-3">
+            <div class="row g-0" style="justify-content: space-evenly;">
+                <div class="col-md-6">
                     <img src="{{auction.imageItem}}" class="img-fluid rounded-start" alt="...">
                 </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                    <h5 class="card-title">{{ auction.title }}</h5>
-                    <p class="card-text">auction: {{ listing.price }}</p>
-                    <p class="card-text">Category: {{ auction.category }}</p>
-                    <p class="card-text"><small class="text-muted">Created {{ auction.date }}</small></p>
-                    </div>
-                </div>
+                <div class="col-md-4">
+                    
+                        <form action="{% url 'auction' auction.id %}" method="POST" style="margin-top: 10px;">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                
+                                <label class="form-label">Current Bid</label>
+                                <input type="number" class="form-control" name="bid" value="0">
+                                <!-- {{formBid}} -->
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Any Comment</label>
+                                <textarea class="form-control" name="comment" rows="3"></textarea>
+                                <!-- {{formComment}} -->
+                            </div>
+                            {% if user.id == auction.userAuction.id %}
+                                <div class="col-auto">
+                                    <button type="button" class="btn btn-secondary mb-3" disable>Add Bit</button>
+                                </div>
+                            {% else %}
+                                <div class="col-auto">
+                                    <button type="submit" class="btn btn-primary mb-3">Add Bit</button>
+                                </div>
+                            {% endif %}
+                            <p class="h5" style="color: red; text-align: center;"><small>{{ message }}</small></p>
+                        </form>
+                    
                 </div>
             </div>
-    
+        </div>
+        <p class="card-text"><small class="text-muted">Created {{ auction.auctionStarted }}</small></p>
+        {% if user.id == auction.userAuction.id %}
+            <button type="button" class="btn btn-warning">Close Auction</button>
+        {% endif %}
+        
+    </div>
+
+    <!-- Seccion de comentarios -->
+    <div>        
+        <div class="contentCard" style="max-width: 800px;">
+            <h2>Comments</h2>
+            {% for comment in comments %}
+                <div class="card mb-3">
+                    <div class="card-text" style="padding: 5px;">
+                        <p><b>{{comment.userComment.username}}</b></p>
+                        <p>{{comment.comment}}</p>
+                        <p class="card-text" style="text-align: end;"><small class="text-muted">{{ comment.commentPosted }}</small></p>
+                    </div>
+                </div>
+            {% endfor %}
+            
+        </div>
+    </div>
 {% endblock %}

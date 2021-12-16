@@ -2,12 +2,11 @@
 
 {% block body %}
     
-    {% if message %}
-        <h2 style="text-align: center;">{{ message }}</h2>
-    {% else %}
-    <h2 style="text-align: center;">Active Listings</h2>
-
-    <div class="album py-5 bg-light">
+    <div class="album py-5">
+        {% if message %}
+            <h2 style="text-align: center;">{{ message }}</h2>
+        {% else %}
+        <h2 style="text-align: center;">Active Listings</h2>
         <div class="container">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 {% for auction in listingAuction %}
@@ -45,6 +44,7 @@
                 {% endfor %}
             </div>
         </div>
+        {% endif %}
     </div>
-    {% endif %}
+    
 {% endblock %}
