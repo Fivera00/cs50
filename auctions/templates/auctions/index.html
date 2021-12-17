@@ -1,42 +1,30 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    
     <div class="album py-5">
         {% if message %}
-            <h2 style="text-align: center;">{{ message }}</h2>
+            <h2>{{ message }}</h2>
         {% else %}
-        <h2 style="text-align: center;">Active Listings</h2>
+        <h2>Active Listings</h2>
         <div class="container">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 {% for auction in listingAuction %}
-                    <a href="{% url 'auction' auction.id %}" class="col" style="margin: 10px 0px; text-decoration: none; font-size: smaller;">
+                    <a href="{% url 'auction' auction.id %}" class="col" style="margin: 10px 0px; text-decoration: none;">
                         <div class="card shadow-sm" style="min-width: 250px;">
-                            <img src="{{auction.imageItem}}" class=" bd-placeholder-img card-img-top" width="100%" height="325" >
-                            
+                            <img src="{{auction.imageItem}}" class=" bd-placeholder-img card-img-top" width="370" height="325" >
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="p-2  bd-highlight">
-                                        <span class="fs-4 font-monospace">{{ auction.titleItem }}</span>
-                                        <p class="fw-lighter ">{{ auction.categoryAuction.categoryName }}</p>
+                                        <h5>{{ auction.titleItem }}</h5>
+                                        <p>{{ auction.categoryAuction.categoryName }}</p>
+                                        <p>{{ auction.descriptionItem }}</p>
                                     </div>
                                     <div class="p-2 flex-shrink-1 bd-highlight" style="text-align: center;">
-                                        <small class="text-muted">Current Price</small>
+                                        <small class="text-muted">Started Price</small>
                                         <p class="subtitle is-6 ">${{ auction.priceAuction }}</p>
                                     </div>
                                 </div>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <!-- Add auction to watchlist -->
-                                    {% if user.is_authenticated %}
-                                        <form action="{% url 'addwatchlist' %}" method="POST" enctype="multipart/form-data">
-                                            {% csrf_token %}
-                                            <div class="btn-group">
-                                                <input type="text" hidden name="idAuction" value="{{ auction.id }}">
-                                                <input type="submit" value = "Add" class="btn btn-sm btn-outline-secondary">
-                                            </div>
-                                        </form>
-                                    {% endif %}
-                                    
+                                <div class="row" style="justify-content: center;">                          
                                     <small class="text-muted">{{ auction.auctionStarted }}</small>
                                 </div>
                             </div>
@@ -47,5 +35,5 @@
         </div>
         {% endif %}
     </div>
-    
+</div>
 {% endblock %}

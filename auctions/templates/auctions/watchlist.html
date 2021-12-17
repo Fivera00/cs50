@@ -1,41 +1,29 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-
     <div class="album py-5 ">
         {% if not watchlist%}
-            <h2 style="text-align: center;">You haven't auctions on your Watchlist!!!</h2>
+            <h2 >You haven't auctions in your Watchlist!!!</h2>
         {% else %}
-            <h2 style="text-align: center;">Watchlist</h2>
+            <h2 >Watchlist</h2>
             <div class="container">
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                     {% for auction in watchlist %}
                         <a href="{% url 'auction' auction.auctionWatchlist.id %}" class="col" style="margin: 10px 0px; text-decoration: none;">
-                            <div class="card shadow-sm"style="min-width: 250px;">
+                            <div class="card shadow-sm" style="min-width: 250px;">
                                 <img src="{{auction.auctionWatchlist.imageItem}}" class=" bd-placeholder-img card-img-top" width="100%" height="325" >
-                                
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="p-2  bd-highlight">
-                                            <span class="fs-4 font-monospace">{{ auction.auctionWatchlist.titleItem }}</span>
-                                            <p class="fw-lighter ">{{ auction.auctionWatchlist.categoryAuction.categoryName }}</p>
+                                            <h5>{{ auction.auctionWatchlist.titleItem }}</h5>
+                                            <p>{{ auction.auctionWatchlist.categoryAuction.categoryName }}</p>
                                         </div>
                                         <div class="p-2 flex-shrink-1 bd-highlight" style="text-align: center;">
-                                            <small class="text-muted">Current Price</small>
+                                            <small class="text-muted">Started Price</small>
                                             <p class="subtitle is-6 ">${{ auction.auctionWatchlist.priceAuction }}</p>
                                         </div>
                                     </div>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        {% if user.is_authenticated %}
-                                            <form action="{% url 'addwatchlist' %}" method="POST" enctype="multipart/form-data">
-                                                {% csrf_token %}
-                                                <div class="btn-group">
-                                                    <input type="text" hidden name="idAuction" value="{{ auction.auctionWatchlist.id }}">
-                                                    <input type="submit" value = "Add" class="btn btn-sm btn-outline-secondary">
-                                                </div>
-                                            </form>
-                                        {% endif %}
-                                        
+                                    <div class="row" style="justify-content: center;">                          
                                         <small class="text-muted">{{ auction.auctionWatchlist.auctionStarted }}</small>
                                     </div>
                                 </div>
@@ -45,6 +33,12 @@
                 </div>
             </div>
         {%endif%}
+        <div class="card">
+            <img src="{{auction.auctionWatchlist.imageItem}}" alt="Denim Jeans" style="width:100%">
+            <h1>Tailored Jeans</h1>
+            <p class="price">$19.99</p>
+            <p>Some text about the jeans..</p>
+            <p><button>Add to Cart</button></p>
+          </div> 
     </div>
-    
 {% endblock %}

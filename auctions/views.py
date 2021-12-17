@@ -12,7 +12,6 @@ from .forms import *
 def index(request):
     listing = Auctions.objects.filter(isActiveAuction = True)
     categories = Categories.objects.all()
-    
     #SI no hay usuario logueado se muestra solo dos campos
     if request.user.id is None:
         context = {
@@ -140,21 +139,23 @@ def searchCategoryAuction(request, category):
 
 @login_required
 def addWatchlist(request):
+    
     if request.method == 'POST':
+        idAuction = request.POST["idAuction"]
         _userWatchlist = request.user
-        _auctionWatchlist = Auctions.objects.get(pk=request.POST["idAuction"])
+        _auctionWatchlist = Auctions.objects.get(pk=idAuction)
         if Watchlist.objects.filter(userWatchlist = _userWatchlist, auctionWatchlist = _auctionWatchlist):
             _userWatchlist.userWatchlist.filter(auctionWatchlist = _auctionWatchlist).delete()
-            return HttpResponseRedirect(reverse("index"))
+            return HttpResponseRedirect(reverse('auction', args=(idAuction)))
         else:
             watchlist = Watchlist(
                 userWatchlist = _userWatchlist,
                 auctionWatchlist = _auctionWatchlist
             )
             watchlist.save()
-            return HttpResponseRedirect(reverse("index"))
+            return HttpResponseRedirect(reverse('auction', args=(idAuction)))
     else:
-        return HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect(reverse('index'))
     
 @login_required
 def listWacthlist(request):
@@ -170,72 +171,71 @@ def listWacthlist(request):
 def viewAuction(request, idAuction):
     validAuction = Auctions.objects.filter(id = idAuction)
     auction = Auctions.objects.get(id = idAuction)
-
+    currentBid = 0
+    winner = ""
+    
     # Si no hay una puja inicial, toma el valor referencial de la subasta
     bid = Bid.objects.filter(auctionBid = idAuction).last()
-    currentBid = 0
     if bid is None:
         currentBid = auction.priceAuction
     else:
         currentBid = bid.bidPrice
     
-    # si es ganador de una subasta 
-    # aa = Auctions.objects.get(pk = idAuction, isActiveAuction = False)
-    # if Auctions.objects.get(pk = idAuction, isActiveAuction = False) is None:
-    #     iswinner = Bid.objects.filter(userBid = request.user, auctionBid = idAuction).last()
-    #     # print(iswinner.userBid.username)
-    #     if iswinner:
-    #         print("el ganador no eres tu es:")
-    #     else:
-    #         print("el ganadores:")
-    winner = Bid.objects.filter(auctionBid = idAuction).last()
+    # obtener el ganador de la subasta 
     if Auctions.objects.filter(pk = idAuction, isActiveAuction = False):
-        print(winner)
-        return HttpResponseRedirect(reverse('index'))
+        userWinner = Bid.objects.filter(auctionBid = idAuction).last()
+        if request.user == userWinner.userBid:
+            winner = "You're winner!!!"
 
-    else:
-        if request.method == 'GET':
-            allComment = Comments.objects.filter(auctionComment = auction)
-            if validAuction:
-                context={
-                    'categories': Categories.objects.all(),
-                    'auction': auction,
-                    'watchlist_count': request.user.userWatchlist.all().count(),
-                    'currentBid': currentBid,
-                    'comments': allComment
-                }
-                return render(request, "auctions/viewAuction.html", context)
-            else:
-                print("No existe la subasta")
-                return HttpResponseRedirect(reverse("index"))
+    if request.method == 'GET':
+        allComment = Comments.objects.filter(auctionComment = auction).order_by('-commentPosted')
+        if validAuction:
+            context={
+                'categories': Categories.objects.all(),
+                'auction': auction,
+                'watchlist_count': request.user.userWatchlist.all().count(),
+                'currentBid': currentBid,
+                'comments': allComment,
+                'winner': winner
+            }
+            return render(request, "auctions/viewAuction.html", context)
         else:
-            _bid = request.POST["bid"]
-            _commment = request.POST["comment"]
-            if int(_bid) > currentBid:
-                userBid = Bid(
-                    bidPrice = _bid,
-                    userBid = request.user,
-                    auctionBid = auction
-                )
-                userBid.save()
-                if _commment != "":
-                    auctionCommet = Comments(
-                        comment = _commment,
-                        userComment = request.user,
-                        auctionComment = auction
-                    )
-                    auctionCommet.save()                
-            else:
-                context={
-                    'categories': Categories.objects.all(),
-                    'auction': auction,
-                    'watchlist_count': request.user.userWatchlist.all().count(),
-                    'currentBid': currentBid,
-                    'message': "Error! Invalid bid amount!"
-                }
-                return render(request, "auctions/viewAuction.html", context)
+            print("No existe la subasta")
+            return HttpResponseRedirect(reverse("index"))
+    else:
+        _bid = request.POST["bid"]            
+        if int(_bid) > currentBid:
+            userBid = Bid(
+                bidPrice = _bid,
+                userBid = request.user,
+                auctionBid = auction
+            )
+            userBid.save()              
+        else:
+            context={
+                'categories': Categories.objects.all(),
+                'auction': auction,
+                'watchlist_count': request.user.userWatchlist.all().count(),
+                'currentBid': currentBid,
+                'message': "Error! Invalid bid amount!"
+            }
+            return render(request, "auctions/viewAuction.html", context)
             
-            return HttpResponseRedirect(reverse('auction', args=(idAuction)))
+        return HttpResponseRedirect(reverse('auction', args=(idAuction)))
+
+def addComment(request, idAuction):
+    auction = Auctions.objects.get(id = idAuction)
+    _commment = request.POST["comment"]
+    if _commment != "":
+        auctionCommet = Comments(
+            comment = _commment,
+            userComment = request.user,
+            auctionComment = auction
+        )
+        auctionCommet.save()   
+        return HttpResponseRedirect(reverse('auction', args=(idAuction)))
+    else:
+        return HttpResponseRedirect(reverse('auction', args=(idAuction)))
 
 def closeAuction(request, idAuction):
     if request.method == "POST":

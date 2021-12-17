@@ -15,14 +15,3 @@ class ListingForm(forms.ModelForm):
         model = Auctions
         fields = ['title','description','startingBid','image', 'category']
 
-class BidForm(ModelForm):
-    bidPrice = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'form-control'}))
-    class Meta:
-        model = Bid
-        fields = ['bidPrice']
-
-class CommentForm(ModelForm):
-    comment = forms.CharField(max_length=500,label="Comment", widget=forms.Textarea(attrs={'class':'form-control', 'placeholder':'Comment Here','rows':3}))
-    class Meta:
-        model = Comments
-        fields = ['comment']

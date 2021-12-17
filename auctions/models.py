@@ -8,7 +8,7 @@ class User(AbstractUser):
 class Categories(models.Model):
     categoryName = models.CharField(max_length=64)
     def __str__(self):
-        return(f"{self.id}:{self.categoryName}")
+        return(f"{self.categoryName}")
 
 # Acciones realizada por usuarios
 
@@ -27,7 +27,7 @@ class Auctions(models.Model):
     userAuction = models.ForeignKey(User, on_delete=models.CASCADE)
     
     def __str__(self):
-        return(f"Auction{self.id}: {self.titleItem} is being sold to {self.userAuction} for {self.priceAuction}")
+        return(f"Auction{self.id}: {self.titleItem} is being auctioned by {self.userAuction}")
 
 # Los comentarios que dejan los usuarios en la subasta
 class Comments(models.Model):
@@ -36,7 +36,7 @@ class Comments(models.Model):
     userComment = models.ForeignKey(User,on_delete=models.CASCADE)
     auctionComment = models.ForeignKey(Auctions, on_delete=models.CASCADE)
     def __str__(self):
-        return(f"Comment {self.id} made by {self.userComment} on auction {self.auctionComment}")
+        return(f"Comment {self.id} made by {self.userComment.username} in the auction {self.auctionComment.titleItem}")
     
 # Para realizar la apuesta a una subasta
 class Bid(models.Model):
@@ -45,11 +45,11 @@ class Bid(models.Model):
     userBid = models.ForeignKey(User, on_delete=models.CASCADE)
     auctionBid = models.ForeignKey(Auctions, on_delete=models.CASCADE)
     def __str__(self):
-        return(f"Bid {self.id} made by {self.userBid} on auction {self.auctionBid}")
+        return(f"Bid {self.id} made by {self.userBid.username} in the auction {self.auctionBid.titleItem}")
     
 # Para guardar alguna oferta en la lista de deseos
 class Watchlist(models.Model):
     userWatchlist = models.ForeignKey(User, on_delete=models.CASCADE, related_name="userWatchlist")
     auctionWatchlist = models.ForeignKey(Auctions, on_delete=models.CASCADE)
     def __str__(self):
-        return(f"{self.userWatchlist.username} listed {self.auctionWatchlist.titleItem} watchlist")
+        return(f"{self.userWatchlist.username} add {self.auctionWatchlist.titleItem} to his watchlist")

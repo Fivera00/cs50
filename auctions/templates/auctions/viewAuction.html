@@ -1,43 +1,85 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    
+<!-- Mostrar al ganador -->
+    {% if not auction.isActiveAuction %}
+        <div>        
+            <div class="contentCard" style="max-width: 800px;">
+                <h2>Auction is closed</h2>
+                <h3 style="text-align: center;">{{ winner }}</h3>
+            </div>
+        </div>
+    {% endif  %}
+<!-- realizar la subasta -->
     <div class="contentCard" style="max-width: 800px;">
-        <h2 style="text-align: center;">{{ auction.titleItem }}</h2>
-        <p class="card-text">Started Bid: ${{ auction.priceAuction }}</p>
-        <p class="card-text">Current Bid: ${{ currentBid }}</p>
-        <p class="card-text">Category: {{ auction.categoryAuction.categoryName }}</p>
+        <h2>{{ auction.titleItem }}</h2>
         <div class="card mb-3">
+            <div class="card-body">
+                <h4 class="card-title">Details</h4>
+                <ul>
+                    <li>Seller: {{auction.userAuction.username}}</li>
+                    <li>Category: {{auction.categoryAuction.categoryName}}</li>
+                    <li>Started Bid: ${{ auction.priceAuction }}</li>
+                </ul>
+            </div>
             <div class="row g-0" style="justify-content: space-evenly;">
-                <div class="col-md-6">
-                    <img src="{{auction.imageItem}}" class="img-fluid rounded-start" alt="...">
+                <div class="col-md-6">                    
+                    {% if user.is_authenticated %}
+                    <div style="position: absolute; right: 0px;padding-right: 15px;">
+                        <form action="{% url 'addwatchlist' %}" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="btn-group">
+                                <input type="text" hidden name="idAuction" value="{{ auction.id }}">
+                                <input type="submit" value = "watchlist" class="btn btn-warning btn-sm">
+                            </div>
+                        </form>
+                    </div>
+                    <img src="{{auction.imageItem}}" class="img-fluid rounded-start" alt="{{auction.descriptionItem}}">
+                {% endif %}
                 </div>
                 <div class="col-md-4">
                         <form action="{% url 'auction' auction.id %}" method="POST" style="margin-top: 10px;">
                             {% csrf_token %}
-                            <div class="mb-3">
-                                
-                                <label class="form-label">Current Bid</label>
-                                <input type="number" class="form-control" name="bid" value="0">
-                                <!-- {{formBid}} -->
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Any Comment</label>
-                                <textarea class="form-control" name="comment" rows="3"></textarea>
-                                <!-- {{formComment}} -->
-                            </div>
+                            <!--  Si el usuario es el propietario no podra apostar -->
                             {% if user.id == auction.userAuction.id %}
-                                <div class="col-auto">
-                                    <button type="button" class="btn btn-secondary mb-3" disable>Add Bit</button>
+                                <div class="mb-3">
+                                    <label class="form-label">Current Bid: ${{ currentBid }}</label>
+                                    <input type="number" class="form-control" name="bid" value="0" disabled>
+                                    <!-- {{formBid}} -->
                                 </div>
-                            {% else %}
                                 <div class="col-auto">
-                                    <button type="submit" class="btn btn-primary mb-3">Add Bit</button>
+                                    <button type="button" class="btn btn-secondary mb-3" disableb>Add Bit</button>
+                                </div>
+                                
+                            {% else %}
+                           
+                                <div class="col-auto"> 
+                                    <!-- si la subasta esta cerrada estara desactivada los botones -->
+                                    {% if not auction.isActiveAuction %}
+                                        <div class="mb-3">
+                                            <label class="form-label">Current Bid: ${{ currentBid }}</label>
+                                            <input type="number" class="form-control" name="bid" value="0" disabled>
+                                            <!-- {{formBid}} -->
+                                        </div>
+                                        <div class="col-auto">
+                                            <button type="button" class="btn btn-secondary mb-3" disabled >Add Bit</button>
+                                        </div>
+                                    {% else %}
+                                        <div class="mb-3">
+                                            <label class="form-label">Current Bid: ${{ currentBid }}</label>
+                                            <input type="number" class="form-control" name="bid" value="0">
+                                            <!-- {{formBid}} -->
+                                        </div>
+                                        <div class="col-auto">
+                                            <button type="submit" class="btn btn-primary mb-3" >Add Bit</button>
+                                        </div>
+                                        
+                                    {% endif %}
                                 </div>
                             {% endif %}
+                            
                             <p class="h5" style="color: red; text-align: center;"><small>{{ message }}</small></p>
                         </form>
-                    
                 </div>
             </div>
         </div>
@@ -47,15 +89,27 @@
             {% csrf_token %}
             <button type="submit" class="btn btn-warning">Close Auction</button>
         </form>
-            
         {% endif %}
         
     </div>
-
     <!-- Seccion de comentarios -->
     <div>        
+        
         <div class="contentCard" style="max-width: 800px;">
             <h2>Comments</h2>
+            <div class="card mb-3">
+                <form action="{% url 'comment' auction.id %}" method="POST" >
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <!-- <label class="form-label">Any Comment</label> -->
+                        <input type="text" class="form-control" name="comment" required placeholder="Add comments"></input>
+                        <!-- {{formComment}} -->
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary mb-3">Add Comment</button>
+                    </div>
+                </form>
+            </div>
             {% for comment in comments %}
                 <div class="card mb-3">
                     <div class="card-text" style="padding: 5px;">
@@ -65,23 +119,7 @@
                     </div>
                 </div>
             {% endfor %}
-            
         </div>
     </div>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#winner">
-        Launch demo modal
-      </button>
-    <!-- Modal WINNER -->
-    <div class="modal fade" id="winner" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            
-            <div class="modal-body">
-              Are you winner
-            </div>
-          </div>
-        </div>
-      </div>
-
 {% endblock %}
 
