@@ -78,7 +78,7 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
 
-@login_required
+@login_required(login_url='/login')
 def createListing(request): 
     if request.method == "POST":
         form = ListingForm(request.POST)
@@ -137,7 +137,7 @@ def searchCategoryAuction(request, category):
         }
         return render(request, "auctions/index.html", context)
 
-@login_required
+@login_required(login_url='/login')
 def addWatchlist(request):
     
     if request.method == 'POST':
@@ -157,7 +157,7 @@ def addWatchlist(request):
     else:
         return HttpResponseRedirect(reverse('index'))
     
-@login_required
+@login_required(login_url='/login')
 def listWacthlist(request):
     user = User.objects.get(username=request.user)
     # print(user.userWatchlist.exists())
@@ -167,7 +167,7 @@ def listWacthlist(request):
         'watchlist_count': request.user.userWatchlist.all().count()
     })
 
-@login_required
+@login_required(login_url='/login')
 def viewAuction(request, idAuction):
     validAuction = Auctions.objects.filter(id = idAuction)
     auction = Auctions.objects.get(id = idAuction)
@@ -187,8 +187,10 @@ def viewAuction(request, idAuction):
         if request.user == userWinner.userBid:
             winner = "You're winner!!!"
 
+    #obtener los comentarios para mostrarlos 
+    allComment = Comments.objects.filter(auctionComment = auction).order_by('-commentPosted')
     if request.method == 'GET':
-        allComment = Comments.objects.filter(auctionComment = auction).order_by('-commentPosted')
+        
         if validAuction:
             context={
                 'categories': Categories.objects.all(),
@@ -217,6 +219,7 @@ def viewAuction(request, idAuction):
                 'auction': auction,
                 'watchlist_count': request.user.userWatchlist.all().count(),
                 'currentBid': currentBid,
+                'comments': allComment,
                 'message': "Error! Invalid bid amount!"
             }
             return render(request, "auctions/viewAuction.html", context)
@@ -237,6 +240,7 @@ def addComment(request, idAuction):
     else:
         return HttpResponseRedirect(reverse('auction', args=(idAuction)))
 
+@login_required(login_url='/login')
 def closeAuction(request, idAuction):
     if request.method == "POST":
         auction = Auctions.objects.get(pk = idAuction)

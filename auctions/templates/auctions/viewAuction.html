@@ -25,17 +25,17 @@
             <div class="row g-0" style="justify-content: space-evenly;">
                 <div class="col-md-6">                    
                     {% if user.is_authenticated %}
-                    <div style="position: absolute; right: 0px;padding-right: 15px;">
-                        <form action="{% url 'addwatchlist' %}" method="POST" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <div class="btn-group">
-                                <input type="text" hidden name="idAuction" value="{{ auction.id }}">
-                                <input type="submit" value = "watchlist" class="btn btn-warning btn-sm">
-                            </div>
-                        </form>
-                    </div>
-                    <img src="{{auction.imageItem}}" class="img-fluid rounded-start" alt="{{auction.descriptionItem}}">
-                {% endif %}
+                        <div style="position: absolute; right: 0px;padding-right: 15px;">
+                            <form action="{% url 'addwatchlist' %}" method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="btn-group">
+                                    <input type="text" hidden name="idAuction" value="{{ auction.id }}">
+                                    <input type="submit" value = "watchlist" class="btn btn-warning btn-sm">
+                                </div>
+                            </form>
+                        </div>
+                        <img src="{{auction.imageItem}}" class="img-fluid rounded-start" alt="{{auction.descriptionItem}}" style="height: 300px;">
+                    {% endif %}
                 </div>
                 <div class="col-md-4">
                         <form action="{% url 'auction' auction.id %}" method="POST" style="margin-top: 10px;">
@@ -85,10 +85,10 @@
         </div>
         <p class="card-text"><small class="text-muted">Created {{ auction.auctionStarted }}</small></p>
         {% if user.id == auction.userAuction.id %}
-        <form action="{% url 'close' auction.id %}" method="POST" >
-            {% csrf_token %}
-            <button type="submit" class="btn btn-warning">Close Auction</button>
-        </form>
+            <form action="{% url 'close' auction.id %}" method="POST" >
+                {% csrf_token %}
+                <button type="submit" class="btn btn-warning">Close Auction</button>
+            </form>
         {% endif %}
         
     </div>
