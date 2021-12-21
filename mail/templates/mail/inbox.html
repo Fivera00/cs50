@@ -12,7 +12,21 @@
     <hr>
 
     <div id="emails-view">
+        <div id="heading">
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <tbody id = "emails-preview" >
+
+                </tbody>
+            </table>
+        </div>
     </div>
+    <div id="email-open">
+
+    </div>
+
+    <p><b></b></p>
 
     <div id="compose-view">
         <h3>New Email</h3>
@@ -27,7 +41,7 @@
                 <input class="form-control" id="compose-subject" placeholder="Subject">
             </div>
             <textarea class="form-control" id="compose-body" placeholder="Body"></textarea>
-            <input type="submit" class="btn btn-primary"/>
+            <input type="button" class="btn btn-primary" id="send-email" value="Send"/> 
         </form>
     </div>
 {% endblock %}
