@@ -11,7 +11,7 @@ class Profile(models.Model):
     followers = models.ManyToManyField(User, related_name="get_follower")
 
     def __str__ (self):  
-        return f" {self.id}: {self.user.username} has {self.follower.count()} followers and follows {self.user.follower.count()} users"
+        return f"{self.id}: {self.user.username} has {self.followers.count()} followers and follows {self.user.get_follower.count()} users"
 
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -20,5 +20,5 @@ class Post(models.Model):
     likes = models.ManyToManyField(User, related_name="get_likes_post")
     
     def __str__(self):
-        return(f"Post {self.id}: {self.content} made by {self.user} on {self.date} has {self.likes.count()}")
+        return(f"{self.id}: {self.content} made by {self.user} on {self.date} has {self.likes.count()} likes")
 
