@@ -1,0 +1,17 @@
+### Obtener todos los juegos de la aplicacion
+GET http://localhost:8000/api/games
+
+### Obtener todas las categorias que tiene un juego 
+GET http://localhost:8000/api/categories
+
+### Obtener todos los retos de los juegos de la aplicacion
+GET http://localhost:8000/api/challenges
+
+### Obtener todos los retos de una categoria en especifico
+GET http://localhost:8000/api/category/1/challenges
+
+### Obtener todos los retos de un juego en especifico
+GET http://localhost:8000/api/game/1/challenges
+
+### Obtener todos los retos de un juego y una categoria
+GET http://localhost:8000/api/game/1/category/2/challenges

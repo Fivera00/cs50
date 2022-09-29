@@ -1,0 +1,313 @@
+html,
+body {
+  position: relative;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  /* background-color: #eeeeee; */
+  font-family: "helvetica", sans-serif;
+  font-size: 16px;
+}
+
+.game-container {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  z-index: 69;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("https://psycatgames.com/app/never-have-i-ever/img/confetti.svg");
+  background-size: cover;
+  background-color: #214;
+  /* color: #fff; */
+  animation: bg-ad 20s ease infinite;
+}
+
+.border-box {
+  position: relative;
+  display: inline-block;
+  transition: 0.5s;
+  overflow: hidden;
+}
+.border-box .sp1,
+.border-box .sp2,
+.border-box .sp3,
+.border-box .sp4 {
+  position: absolute;
+  display: block;
+}
+.border-box .sp1 {
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #050708);
+  animation: btn-anim1 1s linear infinite;
+}
+
+@keyframes btn-anim1 {
+  0% {
+    left: -100%;
+  }
+  50%,
+  100% {
+    left: 100%;
+  }
+}
+
+.border-box .sp2 {
+  top: -100%;
+  right: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent, #050708);
+  animation: btn-anim2 1s linear infinite;
+  animation-delay: 0.25s;
+}
+
+@keyframes btn-anim2 {
+  0% {
+    top: -100%;
+  }
+  50%,
+  100% {
+    top: 100%;
+  }
+}
+
+.border-box .sp3 {
+  bottom: 0;
+  right: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(270deg, transparent, #050708);
+  animation: btn-anim3 1s linear infinite;
+  animation-delay: 0.5s;
+}
+
+@keyframes btn-anim3 {
+  0% {
+    right: -100%;
+  }
+  50%,
+  100% {
+    right: 100%;
+  }
+}
+
+.border-box .sp4 {
+  bottom: -100%;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(360deg, transparent, #050708);
+  animation: btn-anim4 1s linear infinite;
+  animation-delay: 0.75s;
+}
+
+@keyframes btn-anim4 {
+  0% {
+    bottom: -100%;
+  }
+  50%,
+  100% {
+    bottom: 100%;
+  }
+}
+/* .border-box:before,
+.border-box:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: inset 0 0 0 3px #44395a;
+  animation: animate-box 4s linear infinite;
+}
+
+.border-box:before {
+  animation-delay: -1.5s;
+} */
+
+/* Estilos para las cartas */
+
+#question {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  min-height: 100%;
+  margin: 0px auto;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.element-card {
+  position: relative;
+  width: 200px;
+  height: 300px;
+  transform-style: preserve-3d;
+  transform: rotatey(0deg) translatex(0px) translatey(0px);
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.4);
+  margin: 5px;
+  cursor: pointer;
+  border-radius: 15px;
+}
+.element-card:hover {
+  transform: rotatey(45deg) translatex(0px) translatey(0px);
+}
+.element-card.open {
+  width: 230px;
+  height: 360px;
+  transform: rotatey(-180deg) translatex(0px) translatey(0px);
+}
+.element-card .front-facing {
+  transform: rotateY(0deg) translateZ(2px);
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: repeating-linear-gradient(45deg, #11f 10%, #44f 22%);
+  border-radius: 15px;
+}
+.element-card .front-facing .abr {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  font-size: 42px;
+  margin: -35px 0 0 0;
+  text-align: center;
+  color: #3498db;
+}
+
+.element-card .back-facing {
+  transform: rotateY(180deg) translateZ(0px);
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #ecf0f1;
+  border-radius: 18px;
+  padding: 20px;
+  text-align: center;
+  overflow: hidden;
+}
+.element-card .back-facing p {
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Maso de card responsive */
+.element-card-r {
+  position: relative;
+  width: 200px;
+  height: 300px;
+  transform-style: preserve-3d;
+  transform: rotatey(0deg) translatex(0px) translatey(0px);
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.4);
+  margin: 5px;
+  cursor: pointer;
+  border-radius: 15px;
+}
+.element-card-r1 {
+  width: 200px;
+  height: 300px;
+}
+.element-card-r.open {
+  width: 230px;
+  height: 360px;
+  transform: rotatey(-180deg) translatex(0px) translatey(0px);
+}
+.element-card-r .front-facing-r {
+  transform: rotateY(0deg) translateZ(2px);
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: repeating-linear-gradient(45deg, #11f 10%, #44f 22%);
+  border-radius: 15px;
+}
+.element-card-r1 .front-facing-r1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 2px 10px #000000a3;
+}
+.element-card-r .back-facing-r {
+  transform: rotateY(180deg) translateZ(0px);
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #ecf0f1;
+  border-radius: 18px;
+  padding: 20px;
+  text-align: center;
+  overflow: hidden;
+}
+.element-card-r .back-facing-r p {
+  font-size: 14px;
+  margin: 0;
+}
+
+@keyframes bg-ad {
+  0% {
+    background-color: #214;
+  }
+  50% {
+    background-color: #ff0051;
+  }
+  100% {
+    background-color: #214;
+  }
+}
+@keyframes animate-box {
+  0%,
+  100% {
+    clip: rect(0px, 355px, 10px, 0px);
+    /* clip: rect(0px, 20px, 340px, 0px); */
+    /* clip: rect(380px, 330px, 380px, 0px); */
+    /* clip: rect(0px, 330px, 380px, 330px); */
+  }
+  25% {
+    clip: rect(0px, 10px, 320px, 0px);
+  }
+  50% {
+    clip: rect(320px, 355px, 355px, 0px);
+  }
+  75% {
+    clip: rect(0px, 355px, 320px, 355px);
+  }
+}
