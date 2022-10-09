@@ -53,3 +53,12 @@ class Watchlist(models.Model):
     auctionWatchlist = models.ForeignKey(Auctions, on_delete=models.CASCADE)
     def __str__(self):
         return(f"{self.userWatchlist.username} add {self.auctionWatchlist.titleItem} to his watchlist")
+
+
+# https://cnnespanol.cnn.com/wp-content/uploads/2021/11/baby-yoda-grogu-mandalorian-juguete.png
+
+# https://imagenes.lainformacion.com/files/image_656_370/uploads/imagenes/2021/02/26/mazo-de-subasta-encima-de-un-ordenador-portatil.png
+
+# https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Gioconda_%28copia_del_Museo_del_Prado_restaurada%29.jpg/1200px-Gioconda_%28copia_del_Museo_del_Prado_restaurada%29.jpg
+
+# https://m.media-amazon.com/images/I/61UCRNH2ECL._AC_SX385._SX._UX._SY._UY_.jpg
