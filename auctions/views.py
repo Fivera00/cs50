@@ -167,12 +167,13 @@ def listWacthlist(request):
         'watchlist_count': request.user.userWatchlist.all().count()
     })
 
-@login_required(login_url='/login')
+# @login_required(login_url='/login')
 def viewAuction(request, idAuction):
     validAuction = Auctions.objects.filter(id = idAuction)
     auction = Auctions.objects.get(id = idAuction)
     currentBid = 0
     winner = ""
+    context = {}
     
     # Si no hay una puja inicial, toma el valor referencial de la subasta
     bid = Bid.objects.filter(auctionBid = idAuction).last()
@@ -192,6 +193,15 @@ def viewAuction(request, idAuction):
     if request.method == 'GET':
         
         if validAuction:
+            if request.user.id is None:
+                context = {
+                    'categories': Categories.objects.all(),
+                    'auction': auction,
+                    'currentBid': currentBid,
+                    'comments': allComment,
+                    'winner': winner
+                }
+                return render(request, "auctions/viewAuction.html", context)    
             context={
                 'categories': Categories.objects.all(),
                 'auction': auction,
@@ -226,6 +236,7 @@ def viewAuction(request, idAuction):
             
         return HttpResponseRedirect(reverse('auction', args=(idAuction)))
 
+@login_required(login_url='/login')
 def addComment(request, idAuction):
     auction = Auctions.objects.get(id = idAuction)
     _commment = request.POST["comment"]

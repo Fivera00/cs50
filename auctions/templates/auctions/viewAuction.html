@@ -34,8 +34,8 @@
                                 </div>
                             </form>
                         </div>
-                        <img src="{{auction.imageItem}}" class="img-fluid rounded-start" alt="{{auction.descriptionItem}}" style="height: 300px;">
                     {% endif %}
+                        <img src="{{auction.imageItem}}" class="img-fluid rounded-start" alt="{{auction.descriptionItem}}" style="height: 300px;">
                 </div>
                 <div class="col-md-4">
                         <form action="{% url 'auction' auction.id %}" method="POST" style="margin-top: 10px;">
@@ -52,32 +52,32 @@
                                 </div>
                                 
                             {% else %}
-                           
-                                <div class="col-auto"> 
-                                    <!-- si la subasta esta cerrada estara desactivada los botones -->
-                                    {% if not auction.isActiveAuction %}
-                                        <div class="mb-3">
-                                            <label class="form-label">Current Bid: ${{ currentBid }}</label>
-                                            <input type="number" class="form-control" name="bid" value="0" disabled>
-                                            <!-- {{formBid}} -->
-                                        </div>
-                                        <div class="col-auto">
-                                            <button type="button" class="btn btn-secondary mb-3" disabled >Add Bit</button>
-                                        </div>
-                                    {% else %}
-                                        <div class="mb-3">
-                                            <label class="form-label">Current Bid: ${{ currentBid }}</label>
-                                            <input type="number" class="form-control" name="bid" value="0">
-                                            <!-- {{formBid}} -->
-                                        </div>
-                                        <div class="col-auto">
-                                            <button type="submit" class="btn btn-primary mb-3" >Add Bit</button>
-                                        </div>
-                                        
-                                    {% endif %}
-                                </div>
+                                {% if user.id %}
+                                    <div class="col-auto"> 
+                                        <!-- si la subasta esta cerrada estara desactivada los botones -->
+                                        {% if not auction.isActiveAuction %}
+                                            <div class="mb-3">
+                                                <label class="form-label">Current Bid: ${{ currentBid }}</label>
+                                                <input type="number" class="form-control" name="bid" value="0" disabled>
+                                                <!-- {{formBid}} -->
+                                            </div>
+                                            <div class="col-auto">
+                                                <button type="button" class="btn btn-secondary mb-3" disabled >Add Bit</button>
+                                            </div>
+                                        {% else %}
+                                            <div class="mb-3">
+                                                <label class="form-label">Current Bid: ${{ currentBid }}</label>
+                                                <input type="number" class="form-control" name="bid" value="0">
+                                                <!-- {{formBid}} -->
+                                            </div>
+                                            <div class="col-auto">
+                                                <button type="submit" class="btn btn-primary mb-3" >Add Bit</button>
+                                            </div>
+                                            
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
                             {% endif %}
-                            
                             <p class="h5" style="color: red; text-align: center;"><small>{{ message }}</small></p>
                         </form>
                 </div>
@@ -93,33 +93,35 @@
         
     </div>
     <!-- Seccion de comentarios -->
-    <div>        
-        
-        <div class="contentCard" style="max-width: 800px;">
-            <h2>Comments</h2>
-            <div class="card mb-3">
-                <form action="{% url 'comment' auction.id %}" method="POST" >
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <!-- <label class="form-label">Any Comment</label> -->
-                        <input type="text" class="form-control" name="comment" required placeholder="Add comments"></input>
-                        <!-- {{formComment}} -->
-                    </div>
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-primary mb-3">Add Comment</button>
-                    </div>
-                </form>
-            </div>
-            {% for comment in comments %}
+    {% if user.id %}
+        <div>        
+            
+            <div class="contentCard" style="max-width: 800px;">
+                <h2>Comments</h2>
                 <div class="card mb-3">
-                    <div class="card-text" style="padding: 5px;">
-                        <p><b>{{comment.userComment.username}}</b></p>
-                        <p>{{comment.comment}}</p>
-                        <p class="card-text" style="text-align: end;"><small class="text-muted">{{ comment.commentPosted }}</small></p>
-                    </div>
+                    <form action="{% url 'comment' auction.id %}" method="POST" >
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <!-- <label class="form-label">Any Comment</label> -->
+                            <input type="text" class="form-control" name="comment" required placeholder="Add comments"></input>
+                            <!-- {{formComment}} -->
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-primary mb-3">Add Comment</button>
+                        </div>
+                    </form>
                 </div>
-            {% endfor %}
+                {% for comment in comments %}
+                    <div class="card mb-3">
+                        <div class="card-text" style="padding: 5px;">
+                            <p><b>{{comment.userComment.username}}</b></p>
+                            <p>{{comment.comment}}</p>
+                            <p class="card-text" style="text-align: end;"><small class="text-muted">{{ comment.commentPosted }}</small></p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
-    </div>
+    {% endif %}
 {% endblock %}
 
