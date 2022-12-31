@@ -1,78 +1,58 @@
 {% extends "capstone/layout.html" %} {% block body %}
+<div id="category" style="flex-direction: column;align-items: center;">
+  <div class="border-box">
+    <span class="sp1"></span>
+    <span class="sp2"></span>
+    <span class="sp3"></span>
+    <span class="sp4"></span>
+    <div class="p-4 w-full max-w-sm bg-white rounded-lg border shadow-md sm:p-6 dark:bg-gray-800 dark:border-gray-700">
+      <h5 class="mb-3 text-base font-semibold text-gray-900 md:text-xl dark:text-white">
+        Categorias!
+      </h5>
+      <p class="text-sm font-normal text-gray-500 dark:text-gray-400">
+        Diversos retos para pasar un rato con los amigos.
+      </p>
+      <ul class="my-4 space-y-3">
+        {% for category in categories %}
+        <li>
+          <!-- <a href="/games"> -->
+          <button id="btnAJugar" value="{{category.id}}"
+            class="flex w-full items-center p-3 text-left text-base font-bold text-gray-900 bg-gray-50 rounded-lg hover:bg-gray-200 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
+            onclick="loadQuestion(this)">
+            <span class="flex-1 ml-3 whitespace-nowrap">{{category.categoryName}}</span>
+          </button>
+          <!-- <span class="flex-1 ml-3 whitespace-nowrap">{{category.categoryName}}</span>
+          <input type="hidden" name="id" value="{{category.id}}"> -->
+          <!-- </a> -->
 
-<div
-  class="p-4 w-full max-w-sm bg-white rounded-lg border shadow-md sm:p-6 dark:bg-gray-800 dark:border-gray-700"
->
-  <h5
-    class="mb-3 text-base font-semibold text-gray-900 md:text-xl dark:text-white"
-  >
-    Categorias!
-  </h5>
-  <p class="text-sm font-normal text-gray-500 dark:text-gray-400">
-    Diversos retos para pasar un rato con los amigos.
-  </p>
-  <ul class="my-4 space-y-3">
-    {% for category in categories %}
-    <li>
-      <a
-        href="/games"
-        class="flex items-center p-3 text-base font-bold text-gray-900 bg-gray-50 rounded-lg hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
-      >
-        <span class="flex-1 ml-3 whitespace-nowrap"
-          >{{category.categoryName}}</span
-        >
-      </a>
-    </li>
 
-    {% endfor %}
-  </ul>
+        </li>
+
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
 </div>
 
-{% if user.is_authenticated %}
-<div class="mt-4">
-  <button
-    class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-base font-semibold text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800"
-    type="button"
-    data-modal-toggle="categoria-modal"
-  >
-    <span
-      class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0"
-    >
-      Agregar Categorias
-    </span>
-  </button>
+<div id="questions" style="flex-direction: column;align-items: center;">
+
 </div>
 
-{% endif %}
-<div
-  id="categoria-modal"
-  tabindex="-1"
-  aria-hidden="true"
-  class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full"
->
+
+<div id="categoria-modal" tabindex="-1" aria-hidden="true"
+  class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
   <div class="relative p-4 w-full max-w-md h-auto">
-    <div
-      class="fixed inset-0 transition-opacity"
-      style="background-color: hsl(0deg 0% 0% / 72%)"
-    ></div>
+    <div class="fixed inset-0 transition-opacity" style="background-color: hsl(0deg 0% 0% / 72%)"></div>
     <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-      <button
-        type="button"
+      <button type="button"
         class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
-        data-modal-toggle="categoria-modal"
-      >
-        <svg
-          aria-hidden="true"
-          class="w-5 h-5"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fill-rule="evenodd"
+        data-modal-toggle="categoria-modal">
+        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd"
             d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path>
+            clip-rule="evenodd"></path>
         </svg>
         <span class="sr-only">Close modal</span>
       </button>
@@ -82,24 +62,14 @@
         </h3>
         <form class="space-y-6" action="#">
           <div>
-            <label
-              for="categoria"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-              >Nuevo categoria</label
-            >
-            <input
-              type="text"
-              name="categoria"
-              id="categoria"
+            <label for="categoria" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Nuevo
+              categoria</label>
+            <input type="text" name="categoria" id="categoria"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-              placeholder="Picoso"
-              required
-            />
+              placeholder="Picoso" required />
           </div>
-          <button
-            type="submit"
-            class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
+          <button type="submit"
+            class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
             Registrar
           </button>
         </form>

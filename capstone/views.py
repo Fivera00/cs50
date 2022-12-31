@@ -38,7 +38,6 @@ def deleteGame(request, game):
     
     _game = Games.objects.get(id=game)
 
-    print(_game)
     if _game is None:
         return JsonResponse({"error": "Game not found."}, status=404)
     
@@ -71,7 +70,7 @@ def getCategories(request):
     _categories = Categories.objects.all()
     return JsonResponse([Categories.serialize() for Categories in _categories], safe=False)
 
-def getChallenges(request):
+def getChallenges(request): 
     _challenges = Challenge.objects.all()
     return JsonResponse([Challenge.serialize() for Challenge in _challenges], safe=False)
 

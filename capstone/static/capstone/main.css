@@ -199,7 +199,7 @@ body {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   position: absolute;
   top: 0;
@@ -215,6 +215,11 @@ body {
 .element-card .back-facing p {
   font-size: 14px;
   margin: 0;
+}
+
+.element-card .back-facing .reto-game {
+  font-size: 22px !important;
+  font-weight: bold;
 }
 
 /* Maso de card responsive */
@@ -264,7 +269,7 @@ body {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   position: absolute;
   top: 0;
@@ -280,6 +285,10 @@ body {
 .element-card-r .back-facing-r p {
   font-size: 14px;
   margin: 0;
+}
+.element-card-r .back-facing-r .reto-game {
+  font-size: 22px !important;
+  font-weight: bold;
 }
 
 @keyframes bg-ad {

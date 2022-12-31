@@ -2,80 +2,81 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>{% block title %}Capstone{% endblock %}</title>
 
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+<head>
+  <title>{% block title %}Capstone{% endblock %}</title>
 
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/flowbite@1.5.2/dist/flowbite.min.css"
-    />
+  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
 
-    <link
-      href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
-      rel="stylesheet"
-    />
-    <link href="{% static 'capstone/main.css/' %}" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.2/dist/flowbite.min.css" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  </head>
-  <body>
-    <div class="game-container">
-      <!-- Seccion para el logo y el loging -->
+  <link href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" rel="stylesheet" />
+  <link href="{% static 'capstone/main.css/' %}" rel="stylesheet" />
 
-      <div class="p-6 w-full fixed flex items-center justify-between">
-        <a href="/">
-          <img
-            src="{% static 'capstone/img/salud.png' %}"
-            alt="logo"
-            class="w-14 h-14"
-          />
-        </a>
-        <a href="/login">
-          <button
-            class="relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800"
-          >
-            <span
-              class="relative px-5 py-2.5 transition-all ease-in duration-75 dark:bg-gray-900 rounded-md group-hover:bg-opacity-0"
-            >
-              Login
-            </span>
-            <div>
-              <svg
-                aria-hidden="true"
-                class="ml-1 mr-1 w-5 h-5"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-            </div>
-          </button>
-        </a>
-      </div>
-      <!-- Seccion para el titulo y descripcion  -->
-      <!-- Seccion para el menu y la app como tal  -->
-      <div
-        class="h-screen flex flex-col justify-center items-center w-full px-6"
-      >
-        {% block body %} {% endblock %}
-      </div>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+  <div class="game-container">
+    <!-- Seccion para el logo y el loging -->
+
+    <div class="p-6 w-full fixed flex items-center justify-between">
+      <a href="/">
+        <img src="{% static 'capstone/img/salud.png' %}" alt="logo" class="w-14 h-14" />
+      </a>
+
+      {% if user.is_authenticated %}
+      <a href="/logout">
+        <button
+          class="relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
+          <span
+            class="relative px-5 py-2.5 transition-all ease-in duration-75 dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+            Logout
+          </span>
+          <div>
+            <svg aria-hidden="true" class="ml-1 mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                clip-rule="evenodd"></path>
+            </svg>
+          </div>
+        </button>
+      </a>
+      {% else %}
+      <a href="/login">
+        <button
+          class="relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
+          <span
+            class="relative px-5 py-2.5 transition-all ease-in duration-75 dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+            Login
+          </span>
+          <div>
+            <svg aria-hidden="true" class="ml-1 mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                clip-rule="evenodd"></path>
+            </svg>
+          </div>
+        </button>
+      </a>
+      {% endif %}
+
     </div>
+    <!-- Seccion para el titulo y descripcion  -->
+    <!-- Seccion para el menu y la app como tal  -->
+    <div class="h-screen flex flex-col justify-center items-center w-full px-6">
+      {% block body %} {% endblock %}
+    </div>
+  </div>
 
-    <!-- Scripts  -->
-    <script
-      src="https://code.jquery.com/jquery-3.6.1.slim.min.js"
-      integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA="
-      crossorigin="anonymous"
-    ></script>
-    <script src="{% static 'capstone/index.js' %}"></script>
-    <script src="https://unpkg.com/flowbite@1.5.2/dist/flowbite.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> -->
-  </body>
+  <!-- Scripts  -->
+  <script src="https://code.jquery.com/jquery-3.6.1.slim.min.js"
+    integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"></script>
+  <script src="{% static 'capstone/index.js' %}"></script>
+  <script src="https://unpkg.com/flowbite@1.5.2/dist/flowbite.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> -->
+</body>
+
 </html>

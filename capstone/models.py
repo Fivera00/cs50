@@ -14,6 +14,8 @@ class Games(models.Model):
             'name': self.name,
             'isDefault': self.isDefault
         }
+    def __str__(self):
+        return f"{self.name}"
         
 class Categories(models.Model):
     categoryName = models.CharField(max_length=100)
@@ -22,6 +24,8 @@ class Categories(models.Model):
             'id': self.id,
             'categoryName': self.categoryName
         }
+    def __str__(self):
+        return f"{self.categoryName}"
 
 class Challenge(models.Model):
     titleChallenge = models.CharField(max_length=500)
@@ -40,4 +44,6 @@ class Challenge(models.Model):
             'categoryChallenge': self.categoryChallenge.serialize(),
             'gameChallenge': self.gameChallenge.serialize()
         }
+    def __str__(self):
+        return f"{self.titleChallenge} has category {self.categoryChallenge} and game {self.gameChallenge}"
 
